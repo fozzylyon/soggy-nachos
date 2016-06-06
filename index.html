@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Soggy Nachos C&C</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.1.0/css/bootstrap-slider.min.css" crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.1.0/bootstrap-slider.min.js" crossorigin="anonymous"></script>
+  <style type="text/css">
+  body {
+    margin: 48px;
+    background-image: url('http://3.bp.blogspot.com/_Caml120e_xI/TO8YfTG9ddI/AAAAAAAADdo/ieABspgVHn8/s1600/thanksgiving+041.JPG')
+  }
+  .row {
+    margin: 48px;
+  }
+  .slider-vertical .slider-handle {
+    margin-left: -45px !important;
+    width: 100px !important;
+  }
+  </style>
+</head>
+
+<body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io.connect('http://localhost:8080');
+  socket.on('hello', function(data) {});
+
+  function rightChange(v) {
+    send({
+      right: v.value
+    });
+  }
+
+  function leftChange(v) {
+    send({
+      left: v.value
+    });
+  }
+
+  function servoChange(v) {
+    send({
+      servo: v.value
+    });
+  }
+  function weaponChange(v) {
+    send({
+      weapon: v.value
+    });
+  }
+
+  function send(data) {
+    socket.emit('data', data);
+  }
+  </script>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <input type="text" value="" data-slider-orientation="horizontal" data-slider-min="0" data-slider-max="180" data-slider-step="5" data-slider-value="90" data-slider-id="RC" id="weapon" data-slider-tooltip="hide" data-slider-handle="square" data-slider="true" data-slider-reversed="true" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2">
+        <input type="text" class="span2" value="" data-slider-orientation="vertical" data-slider-min="-255" data-slider-max="255" data-slider-step="5" data-slider-value="0" data-slider-id="RC" id="left-engine" data-slider-tooltip="hide" data-slider-handle="square" data-slider-reversed="true" />
+      </div>
+      <div class="col-xs-2">
+        <input type="text" class="span2" value="" data-slider-orientation="vertical" data-slider-min="-255" data-slider-max="255" data-slider-step="5" data-slider-value="0" data-slider-id="RC" id="right-engine" data-slider-tooltip="hide" data-slider-handle="square" data-slider-reversed="true" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <input type="text" value="" data-slider-orientation="horizontal" data-slider-min="55" data-slider-max="135" data-slider-step="5" data-slider-value="90" data-slider-id="RC" id="servo" data-slider-tooltip="hide" data-slider-handle="square" data-slider="true" />
+      </div>
+    </div>
+  </div>
+  <script>
+  var right = $('#right-engine').slider()
+    .on('slide', rightChange)
+    .data('slider');
+
+  var left = $('#left-engine').slider()
+    .on('slide', leftChange)
+    .data('slider');
+
+  var left = $('#servo').slider()
+    .on('slide', servoChange)
+    .data('slider');
+
+  var left = $('#weapon').slider()
+    .on('slide', weaponChange)
+    .data('slider');
+  </script>
+  </script>
+</body>
+
+</html>
